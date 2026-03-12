@@ -1,6 +1,6 @@
-# LingoFlow | Live Voice Translator ✨
+# Shad's Translator | Live Voice Translator ✨
 
-LingoFlow is a sleek, modern, and high-performance live voice translator designed to bridge the gap between English and Finnish. Built with a premium glassmorphism aesthetic, it provides a seamless real-time translation experience directly in your browser.
+Shad's Translator is a sleek, modern, and high-performance live voice translator designed to bridge the gap between English and Finnish. Built with a premium glassmorphism aesthetic, it provides a seamless real-time translation experience directly in your browser.
 
 ## 🚀 Features
 
@@ -45,4 +45,4 @@ LingoFlow is a sleek, modern, and high-performance live voice translator designe
 
 ---
 
-&copy; 2026 LingoFlow. Built for seamless communication.
+&copy; 2026 Shad's Translator. Built for seamless communication.

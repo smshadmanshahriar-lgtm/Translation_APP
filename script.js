@@ -13,6 +13,14 @@ const langLabelRight = document.getElementById('lang-label-right');
 const copyBtn = document.getElementById('copy-btn');
 const clearBtn = document.getElementById('clear-btn');
 const waveContainer = document.getElementById('wave-container');
+const video = document.getElementById('video');
+const subtitleText = document.getElementById('subtitle-text');
+const recordBtn = document.getElementById('record-btn');
+const recordStatus = document.getElementById('record-status');
+
+let mediaRecorder;
+let recordedChunks = [];
+let stream;
 
 let isListening = false;
 let sourceLang = 'en-US';
@@ -79,6 +87,7 @@ copyBtn.addEventListener('click', () => {
 clearBtn.addEventListener('click', () => {
     inputTextDisplay.innerText = "...";
     outputTextDisplay.innerText = "...";
+    subtitleText.innerText = "Translation will appear here...";
 });
 
 function startListening() {
@@ -89,6 +98,8 @@ function startListening() {
     micStatus.innerText = "Stop Listening";
     inputTextDisplay.innerText = "Listening...";
     outputTextDisplay.innerText = "...";
+    recordBtn.disabled = false;
+    recordBtn.title = "Record this session";
 }
 
 function stopListening() {
@@ -96,6 +107,57 @@ function stopListening() {
     isListening = false;
     micBtn.classList.remove('listening');
     micStatus.innerText = "Start Listening";
+    
+    // Stop recording if active
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        stopRecording();
+    }
+    recordBtn.disabled = true;
+}
+
+// Recording Logic
+recordBtn.addEventListener('click', () => {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+});
+
+function startRecording() {
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+    
+    mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+            recordedChunks.push(e.data);
+        }
+    };
+
+    mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `translated-session-${new Date().getTime()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 100);
+    };
+
+    mediaRecorder.start();
+    recordBtn.classList.add('recording');
+    recordStatus.innerText = "Stop Recording";
+}
+
+function stopRecording() {
+    mediaRecorder.stop();
+    recordBtn.classList.remove('recording');
+    recordStatus.innerText = "Record Session";
 }
 
 // Recognition Result
@@ -106,13 +168,17 @@ recognition.onresult = (event) => {
     for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
             finalTranscript += event.results[i][0].transcript;
-            translateText(finalTranscript);
         } else {
             interimTranscript += event.results[i][0].transcript;
         }
     }
 
-    inputTextDisplay.innerText = finalTranscript || interimTranscript;
+    const currentText = finalTranscript || interimTranscript;
+    inputTextDisplay.innerText = currentText;
+
+    if (currentText.trim()) {
+        translateText(currentText);
+    }
 };
 
 recognition.onerror = (event) => {
@@ -126,12 +192,35 @@ recognition.onend = () => {
     }
 };
 
+// Camera Initialization
+async function initCamera() {
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { 
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                facingMode: "user"
+            }, 
+            audio: true 
+        });
+        video.srcObject = stream;
+    } catch (error) {
+        console.error('Error accessing camera/mic:', error);
+        subtitleText.innerText = "Camera or Mic access denied.";
+    }
+}
+
+// Call camera init on load
+window.addEventListener('load', initCamera);
+
 // Translation Logic
 let translationTimeout;
 async function translateText(text) {
     if (!text.trim()) return;
 
     outputTextDisplay.innerText = "Translating...";
+    subtitleText.innerText = "...";
+    subtitleText.style.opacity = "0.5";
     
     // Clear previous timeout to debounce if multiple final results come fast
     clearTimeout(translationTimeout);
@@ -145,6 +234,9 @@ async function translateText(text) {
             if (data.responseData) {
                 const translatedText = data.responseData.translatedText;
                 outputTextDisplay.innerText = translatedText;
+                // Update subtitles
+                subtitleText.innerText = translatedText;
+                subtitleText.style.opacity = "1";
             } else {
                 outputTextDisplay.innerText = "Translation error.";
             }
@@ -152,5 +244,5 @@ async function translateText(text) {
             console.error('Translation error:', error);
             outputTextDisplay.innerText = "Error in translation service.";
         }
-    }, 500); // 500ms debounce
+    }, 300); // 300ms debounce for live feel
 }
