@@ -1,48 +1,50 @@
-# Shad's Translator | Live Voice Translator ✨
+# Shad's Translator | Live Voice & Camera Translator ✨
 
-Shad's Translator is a sleek, modern, and high-performance live voice translator designed to bridge the gap between English and Finnish. Built with a premium glassmorphism aesthetic, it provides a seamless real-time translation experience directly in your browser.
+Shad's Translator is a high-performance, real-time multimedia translation application. It combines live camera processing, voice recognition, and instant translation to provide an immersive communication experience. Built with a premium glassmorphism aesthetic and a dynamic RGB background, it bridges the gap between English and Finnish seamlessly.
 
-## 🚀 Features
+## 🚀 Key Features
 
-- **Live Voice Recognition**: Leverages the Web Speech API for low-latency, real-time voice-to-text.
-- **Bi-directional Translation**: Easily toggle between English-to-Finnish and Finnish-to-English.
-- **Instant Results**: Real-time translation powered by the MyMemory API.
-- **Premium UI/UX**: 
-  - Glassmorphism design with backdrop filters and vibrant gradients.
-  - Interactive micro-animations (voice wave visualizers, pulsing indicators).
-  - Fully responsive layout for mobile and desktop.
-- **Copy & Clear**: One-click copy for translations and a quick clear button to reset the session.
+- **Live Camera Subtitles**: Real-time Finnish subtitles superimposed directly on your video feed as you speak.
+- **Session Recording**: Capture both video and audio of your translated sessions and download them instantly as `.webm` files.
+- **Instant Live Translation**: Ultra-low latency (300ms) translation processing for a "live captioning" experience.
+- **Bi-directional Support**: Seamlessly toggle between English-to-Finnish and Finnish-to-English.
+- **Premium Aesthetics**: 
+  - Dynamic **Green-Red-Blue** abstract liquid background.
+  - Glassmorphism UI with high-readability typography.
+  - Mirrored video feed with glowing interactive borders.
+- **Voice Visualizers**: Real-time pulse animations and wave visualizers that respond to your voice.
+- **Copy & Clear**: Quick clipboard integration and one-click session reset.
 
 ## 🛠️ Technology Stack
 
-- **HTML5**: Semantic structure.
-- **CSS3**: Custom properties, animations, Flexbox/Grid, and Backdrop Filter.
-- **JavaScript (Vanilla)**: Core logic, Speech Recognition, and Async API calls.
-- **Web Speech API**: For voice input processing.
-- **MyMemory API**: For text translation services.
+- **HTML5**: Semantic structure and Video/Audio elements.
+- **CSS3**: Advanced animations, Backdrop Filters, and dynamic gradients.
+- **JavaScript (ES6+)**: Core logic and asynchronous stream management.
+- **Web Speech API**: For real-time speech recognition and text conversion.
+- **MediaStream Recording API**: To capture and export multimedia sessions.
+- **MyMemory API**: To power the multi-language translation engine.
 
 ## 📖 How to Use
 
-1. **Select Language**: Use the toggle at the top to choose your translation direction (English ↔ Finnish).
-2. **Start Listening**: Click the **"Start Listening"** button and grant microphone permissions when prompted.
-3. **Speak**: Speak clearly into your microphone. Your words will appear in the "Listening..." box.
-4. **Translate**: As you speak, the translation will appear automatically in the "Translation" box.
-5. **Copy**: Click the copy icon to save the translation to your clipboard.
-6. **Reset**: Use the trash icon to clear both text boxes.
+1. **Initialize**: Open the app and grant **Camera** and **Microphone** permissions.
+2. **Set Direction**: Use the toggle switch to choose your translation path (e.g., English -> Finnish).
+3. **Start Listening**: Click **"Start Listening"**. You will see your live feed and the app will begin processing your voice.
+4. **Speak**: Watch as Finnish subtitles appear live at the bottom of the video feed.
+5. **Record (Optional)**: Click **"Record Session"** to save your interaction. Click again to auto-download the video file.
+6. **Save Text**: Use the copy icon in the translation box to save the text to your clipboard.
 
-## ⚠️ Requirements
+## ⚠️ Important Requirements
 
-- **Browser Support**: Since this app uses the Web Speech API, it is best experienced on **Google Chrome** or **Microsoft Edge**.
-- **Microphone**: A working microphone is required for voice translation.
-- **Internet Connection**: Required for fetching translations from the MyMemory API.
+- **Browser Support**: Best experienced on **Google Chrome** or **Microsoft Edge** (required for Web Speech API).
+- **Hardward**: Requires a working camera and microphone.
+- **Internet**: An active connection is required to fetch real-time translations.
 
 ## 🎨 Design System
 
-- **Primary Color**: `#8e2de2` (Purple)
-- **Secondary Color**: `#4a00e0` (Deep Blue)
-- **Accent Color**: `#00d2ff` (Cyan)
-- **Typography**: Outfit (via Google Fonts)
+- **Primary Colors**: Indigo, Violet, Cyan, and Custom RGB Accents.
+- **Typography**: Outfit (Modern, high-legibility sans-serif).
+- **Background**: `dynamic_rgb_background.png` (Custom generated).
 
 ---
 
-&copy; 2026 Shad's Translator. Built for seamless communication.
+&copy; 2026 Shad's Translator. Built for the future of seamless communication.
